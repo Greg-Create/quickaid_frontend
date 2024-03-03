@@ -1,27 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
-import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
-import { useState, useEffect } from 'react'; // Import useEffect hook
+import logo from "./logo.svg";
+import "./App.css";
+import SpeechRecognition, {
+  useSpeechRecognition,
+} from "react-speech-recognition";
+import { useState, useEffect } from "react"; // Import useEffect hook
 import { PiRecordFill } from "react-icons/pi";
-import { useSpeechSynthesis } from 'react-speech-kit';
+import { useSpeechSynthesis } from "react-speech-kit";
+import { FaMicrophone } from "react-icons/fa";
 
 
 function App() {
   // Initialize textLog state with an empty array
   const [textLog, setTextLog] = useState([]);
   const { speak } = useSpeechSynthesis();
-  const [image,setImage] = useState("")
+  const [image, setImage] = useState("");
 
   const {
     transcript,
     resetTranscript,
     browserSupportsSpeechRecognition,
-    finalTranscript
+    finalTranscript,
   } = useSpeechRecognition({
     recognitionOptions: {
       interimResults: true,
-      continuous: true
-    }
+      continuous: true,
+    },
   });
 
   const [isRecording, setIsRecording] = useState(false);
@@ -35,39 +38,37 @@ function App() {
     setIsRecording(false);
     SpeechRecognition.stopListening();
     // Update textLog state with the new transcript
-    setTextLog(prevTextLog => [...prevTextLog, transcript]);
+    setTextLog((prevTextLog) => [...prevTextLog, transcript]);
     sendTranscriptToBackend(transcript);
+    
   };
-
-  
 
   const sendTranscriptToBackend = (transcript) => {
-    fetch('https://quickaid-server.vercel.app/transcript', {
-      method: 'POST',
+    fetch("https://quickaid-server.vercel.app/transcript", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-       //  'Authorization': 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjBadXlhUjRSMkJ0dDRKclhwdkVMeiJ9.eyJpc3MiOiJodHRwczovL2Rldi03bTIyeGphNzJhc3NwZWNjLnVzLmF1dGgwLmNvbS8iLCJzdWIiOiJOTWdTWUxmZ1RyNngxRkxtNjVsVWV1elk2eWJ6eGlHRUBjbGllbnRzIiwiYXVkIjoiaHR0cHM6Ly92ZXJjZWwtdGVzdC1iZXRhLXNhYmxlLTY3LnZlcmNlbC5hcHAvIiwiaWF0IjoxNzA5Mzg1MjA0LCJleHAiOjE3MDk0NzE2MDQsImF6cCI6Ik5NZ1NZTGZnVHI2eDFGTG02NWxVZXV6WTZ5Ynp4aUdFIiwiZ3R5IjoiY2xpZW50LWNyZWRlbnRpYWxzIn0.gjEZKY2zZPkY-2qkDmlCY7fLGPFc_8lWTi60GKTSG85zC-SUSdTMeatiY8KFLps1wfT5EeGPcVY0tLJScqz8jyjfAEXnsaYsYC9v6YFuWgU4jS6m2V8PRYmOskbXzcqaSWbfUOHojRbtl7FwTXTFD6j-Krcoj0yuRRazuy6GauHUqEaxGsiv-b19mUrBcZ_XrSVHbO33Z5-6FKjdf3ZuPCwQ6wYj_kKspVGOi1zRecFoaIX-YZuu5VbSfAOtnVgoSeTDh8aHqFgOxpC1ZOYgjoigWM_rWiLkJbRCZKhY-auZdILpm-KBzGXk4mLQ-uRgSo_z4B1RA88Su-JjN7d8xQ'
+        "Content-Type": "application/json",
+        //  'Authorization': 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjBadXlhUjRSMkJ0dDRKclhwdkVMeiJ9.eyJpc3MiOiJodHRwczovL2Rldi03bTIyeGphNzJhc3NwZWNjLnVzLmF1dGgwLmNvbS8iLCJzdWIiOiJOTWdTWUxmZ1RyNngxRkxtNjVsVWV1elk2eWJ6eGlHRUBjbGllbnRzIiwiYXVkIjoiaHR0cHM6Ly92ZXJjZWwtdGVzdC1iZXRhLXNhYmxlLTY3LnZlcmNlbC5hcHAvIiwiaWF0IjoxNzA5Mzg1MjA0LCJleHAiOjE3MDk0NzE2MDQsImF6cCI6Ik5NZ1NZTGZnVHI2eDFGTG02NWxVZXV6WTZ5Ynp4aUdFIiwiZ3R5IjoiY2xpZW50LWNyZWRlbnRpYWxzIn0.gjEZKY2zZPkY-2qkDmlCY7fLGPFc_8lWTi60GKTSG85zC-SUSdTMeatiY8KFLps1wfT5EeGPcVY0tLJScqz8jyjfAEXnsaYsYC9v6YFuWgU4jS6m2V8PRYmOskbXzcqaSWbfUOHojRbtl7FwTXTFD6j-Krcoj0yuRRazuy6GauHUqEaxGsiv-b19mUrBcZ_XrSVHbO33Z5-6FKjdf3ZuPCwQ6wYj_kKspVGOi1zRecFoaIX-YZuu5VbSfAOtnVgoSeTDh8aHqFgOxpC1ZOYgjoigWM_rWiLkJbRCZKhY-auZdILpm-KBzGXk4mLQ-uRgSo_z4B1RA88Su-JjN7d8xQ'
       },
-      body: JSON.stringify({ transcript: finalTranscript })
+      body: JSON.stringify({ transcript: finalTranscript, lat: 0, long: 0 }),
     })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Failed to send transcript to backend');
-      }
-      return response.json(); // Parse JSON response
-    })
-    .then(data => {
-      setTextLog(prevTextLog => [...prevTextLog, data.message]);
-      if(data.image){
-        setImage(data.image)
-      }
-      speak({text:data.message})
-    })
-    .catch(error => {
-      console.error('Error sending transcript to backend:', error);
-    });
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to send transcript to backend");
+        }
+        return response.json(); // Parse JSON response
+      })
+      .then((data) => {
+        setTextLog((prevTextLog) => [...prevTextLog, data.message]);
+        if (data.image) {
+          setImage(data.image);
+        }
+        speak({ text: data.message });
+      })
+      .catch((error) => {
+        console.error("Error sending transcript to backend:", error);
+      });
   };
-  
 
   // Effect to log textLog whenever it changes
   useEffect(() => {
@@ -80,24 +81,31 @@ function App() {
 
   return (
     <div className="App">
-      <img src={"https://static.vecteezy.com/system/resources/previews/017/177/954/original/round-medical-cross-symbol-on-transparent-background-free-png.png"} style={{height:'5rem'}}/>
+      <img
+        src={
+          "https://static.vecteezy.com/system/resources/previews/017/177/954/original/round-medical-cross-symbol-on-transparent-background-free-png.png"
+        }
+        style={{ height: "5rem" }}
+      />
       <h2>QuickAid</h2>
-      <p>Microphone: {isRecording ? 'on' : 'off'}</p>
+      <p>Microphone: {isRecording ? "on" : "off"}</p>
       {isRecording ? (
-        <button onClick={stopRecording}>Stop</button>
+        <button className="record small" onClick={stopRecording}><PiRecordFill /></button>
       ) : (
-        <button onClick={startRecording}>Start</button>
+        <button className="record" onClick={startRecording}><FaMicrophone /> </button>
       )}
-      <button onClick={resetTranscript}>Reset</button>
       {textLog.map((text, index) => (
-        <div className='box'>
+        <div>
+        {text? 
+          <div className="box">
         <p key={index}>{text}</p>
-        </div>
+      </div> : ""}
+      </div>
+       
       ))}
-      <p>{transcript}</p>
+      <p>{isRecording? transcript : ""}</p>
 
-      {image? <img src={image}/> : ""}
-     
+      {image ? <img src={image} /> : ""}
     </div>
   );
 }

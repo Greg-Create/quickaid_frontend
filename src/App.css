@@ -1,5 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Oswald:wght@200;300;400;500;600;700&display=swap" rel="stylesheet');
+
+
 .App {
-  margin:6rem;
+  margin:3rem;
+  margin-left: 10rem;
+  margin-right: 10rem;
+  font-family: "Comic Neue",cursive;
+  font-weight:450;
   text-align: center;
 }
 
@@ -7,13 +14,36 @@
   border: 2px solid black;
   border-radius: 10px;
   margin-top: 5px;
+  background-color: lightpink;
+  box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);
+
 
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.record{
+  transform:scale(1);
+  position:fixed;
+  height:4rem;
+  width:4rem;
+  background-color: white;
+  border-radius: 50%;
+  top:87%;
+  left:48.5%;
+  box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.4);
+  transition: 1s;
+
 }
+
+.small{
+transform:scale(0.9)
+}
+
+.record:hover{
+  transform: scale(0.9) ;
+  opacity:0.5;
+}
+
+
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
@@ -21,16 +51,6 @@
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
 
 .App-link {
   color: #61dafb;
