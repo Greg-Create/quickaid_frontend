@@ -73,7 +73,7 @@ function App() {
   };
 
   const sendTranscriptToBackend = (transcript) => {
-    fetch("http://quickaid-server.vercel.app/transcript", {
+    fetch("https://quickaid-server.vercel.app/transcript", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
