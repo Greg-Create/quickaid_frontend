@@ -1,18 +1,15 @@
-import logo from "./logo.svg";
 import "./App.css";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
 import { useState, useEffect } from "react"; // Import useEffect hook
 import { PiRecordFill } from "react-icons/pi";
-import { useSpeechSynthesis } from "react-speech-kit";
 import { FaMicrophone } from "react-icons/fa";
 
 
 function App() {
   // Initialize textLog state with an empty array
   const [textLog, setTextLog] = useState([]);
-  const { speak } = useSpeechSynthesis();
   const [image, setImage] = useState("");
 
   const {
