@@ -14,6 +14,8 @@ function App() {
   const [image, setImage] = useState("");
   const [speaking, setSpeaking] = useState(false);
   const [synth, setSynth] = useState(window.speechSynthesis);
+  const [latitude,setLatitude] = useState(0)
+  const [longitude,setLongitude] = useState(0)
 
   const speakText = (promp) => {
     const utterance = new SpeechSynthesisUtterance(promp);
@@ -52,6 +54,8 @@ function App() {
    useEffect(()=>{
     navigator.geolocation.getCurrentPosition((position) => {
       console.log(position);
+      setLatitude( position.coords.latitude)
+      setLongitude(position.coords.longitude)
       localStorage.setItem("lat", position.coords.latitude);
       localStorage.setItem("lon", position.coords.longitude);
       //  setLatitude(43.8833298)
@@ -69,13 +73,13 @@ function App() {
   };
 
   const sendTranscriptToBackend = (transcript) => {
-    fetch("https://quickaid-server.vercel.app/transcript", {
+    fetch("http://localhost:8080/transcript", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         //  'Authorization': 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjBadXlhUjRSMkJ0dDRKclhwdkVMeiJ9.eyJpc3MiOiJodHRwczovL2Rldi03bTIyeGphNzJhc3NwZWNjLnVzLmF1dGgwLmNvbS8iLCJzdWIiOiJOTWdTWUxmZ1RyNngxRkxtNjVsVWV1elk2eWJ6eGlHRUBjbGllbnRzIiwiYXVkIjoiaHR0cHM6Ly92ZXJjZWwtdGVzdC1iZXRhLXNhYmxlLTY3LnZlcmNlbC5hcHAvIiwiaWF0IjoxNzA5Mzg1MjA0LCJleHAiOjE3MDk0NzE2MDQsImF6cCI6Ik5NZ1NZTGZnVHI2eDFGTG02NWxVZXV6WTZ5Ynp4aUdFIiwiZ3R5IjoiY2xpZW50LWNyZWRlbnRpYWxzIn0.gjEZKY2zZPkY-2qkDmlCY7fLGPFc_8lWTi60GKTSG85zC-SUSdTMeatiY8KFLps1wfT5EeGPcVY0tLJScqz8jyjfAEXnsaYsYC9v6YFuWgU4jS6m2V8PRYmOskbXzcqaSWbfUOHojRbtl7FwTXTFD6j-Krcoj0yuRRazuy6GauHUqEaxGsiv-b19mUrBcZ_XrSVHbO33Z5-6FKjdf3ZuPCwQ6wYj_kKspVGOi1zRecFoaIX-YZuu5VbSfAOtnVgoSeTDh8aHqFgOxpC1ZOYgjoigWM_rWiLkJbRCZKhY-auZdILpm-KBzGXk4mLQ-uRgSo_z4B1RA88Su-JjN7d8xQ'
       },
-      body: JSON.stringify({ transcript: finalTranscript, lat: localStorage.getItem("lat"), long: localStorage.getItem("lon") }),
+      body: JSON.stringify({ transcript: finalTranscript, lat: latitude, long: longitude }),
     })
       .then((response) => {
         if (!response.ok) {

@@ -1,11 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Oswald:wght@200;300;400;500;600;700&display=swap" rel="stylesheet');
 
 
 .App {
   margin:3rem;
   margin-left: 10rem;
   margin-right: 10rem;
-  font-family: "Comic Neue",cursive;
   font-weight:450;
   text-align: center;
 }
