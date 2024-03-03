@@ -52,8 +52,6 @@ function App() {
    useEffect(()=>{
     navigator.geolocation.getCurrentPosition((position) => {
       console.log(position);
-      setLatitude(position.coords.latitude);
-      setLongitude(position.coords.longitude);
       localStorage.setItem("lat", position.coords.latitude);
       localStorage.setItem("lon", position.coords.longitude);
       //  setLatitude(43.8833298)
