@@ -7,11 +7,29 @@ import { PiRecordFill } from "react-icons/pi";
 import { FaMicrophone } from "react-icons/fa";
 
 
+
 function App() {
   // Initialize textLog state with an empty array
   const [textLog, setTextLog] = useState([]);
   const [image, setImage] = useState("");
+  const [speaking, setSpeaking] = useState(false);
+  const [synth, setSynth] = useState(window.speechSynthesis);
 
+  const speakText = (promp) => {
+    const utterance = new SpeechSynthesisUtterance(promp);
+    synth.speak(utterance);
+    setSpeaking(true);
+  };
+
+  const pauseSpeech = () => {
+    synth.pause();
+    setSpeaking(false);
+  };
+
+  const stopSpeech = () => {
+    synth.cancel();
+    setSpeaking(false);
+  };
   const {
     transcript,
     resetTranscript,
@@ -60,7 +78,8 @@ function App() {
         if (data.image) {
           setImage(data.image);
         }
-        speak({ text: data.message });
+         
+        speakText(`${data.message}`) ;
       })
       .catch((error) => {
         console.error("Error sending transcript to backend:", error);
